@@ -44,8 +44,8 @@ function setColData(colName, colEl, colCountEl) {
             <h2 class="text-2xl font-mono font-semibold">${el.title}</h2>
             <p class="text-lg font-mono font-medium text-white/70">${el.desc}</p>
             <button
-                class="px-(--padding-md) py-(--padding-sm) rounded-2xl font-medium text-lg flex gap-2 bg-(--dlt-btn-color) cursor-pointer self-end"><i
-                    class="ri-delete-bin-line"></i> Delete</button>
+                class="dlt-btn px-(--padding-md) py-(--padding-sm) rounded-2xl font-medium text-lg flex gap-2 bg-(--dlt-btn-color) cursor-pointer self-end"><i
+                    class="ri-delete-bin-line pointer-events-none"></i> Delete</button>
         `
             colEl.appendChild(newTask)
         })
@@ -72,7 +72,7 @@ document.addEventListener('drag', (e) => {
     }
 })
 
-function updateCount() {
+function updateData() {
     // Reset counters first!
     currentTodoCount = 0
     currentProgCount = 0
@@ -88,34 +88,32 @@ function updateCount() {
         if (el.classList && el.classList.contains('task')) {
             currentTodoCount++
             taskData.todoCol.tasks.push({
-                title: el.querySelector('h2').textContent,  // ✓ Get text from <h2>
-                desc: el.querySelector('p').textContent     // ✓ Get text from <p>
+                title: el.querySelector('h2').textContent,
+                desc: el.querySelector('p').textContent
             })
         }
     })
     taskData.todoCol.count = currentTodoCount
     todoCount.textContent = currentTodoCount
 
-    // Count tasks in progress column
     progCol.childNodes.forEach((el) => {
         if (el.classList && el.classList.contains('task')) {
             currentProgCount++
             taskData.progCol.tasks.push({
-                title: el.querySelector('h2').textContent,  // ✓ Get text from <h2>
-                desc: el.querySelector('p').textContent     // ✓ Get text from <p>
+                title: el.querySelector('h2').textContent,
+                desc: el.querySelector('p').textContent
             })
         }
     })
     taskData.progCol.count = currentProgCount
     progCount.textContent = currentProgCount
 
-    // Count tasks in completed column
     compCol.childNodes.forEach((el) => {
         if (el.classList && el.classList.contains('task')) {
             currentCompCount++
             taskData.compCol.tasks.push({
-                title: el.querySelector('h2').textContent,  // ✓ Get text from <h2>
-                desc: el.querySelector('p').textContent     // ✓ Get text from <p>
+                title: el.querySelector('h2').textContent,
+                desc: el.querySelector('p').textContent
             })
         }
     })
@@ -141,7 +139,7 @@ function addDragClassOnCol(col) {
         e.preventDefault();
         col.appendChild(currentDrag)
         col.classList.remove('selected')
-        updateCount()
+        updateData()
     })
 }
 
@@ -203,12 +201,12 @@ function addTask() {
             <h2 class="text-2xl font-mono font-semibold">${taskTitle}</h2>
             <p class="text-lg font-mono font-medium text-white/70">${taskDesc}</p>
             <button
-                class="px-(--padding-md) py-(--padding-sm) rounded-2xl font-medium text-lg flex gap-2 bg-(--dlt-btn-color) cursor-pointer self-end"><i
-                    class="ri-delete-bin-line"></i> Delete</button>
+                class="dlt-btn px-(--padding-md) py-(--padding-sm) rounded-2xl font-medium text-lg flex gap-2 bg-(--dlt-btn-color) cursor-pointer self-end"><i
+                    class="ri-delete-bin-line pointer-events-none"></i> Delete</button>
         `
     todoCol.appendChild(newTask)
     closeModal()
-    updateCount()
+    updateData()
 }
 
 title.addEventListener('input', () => {
@@ -228,3 +226,16 @@ document.addEventListener('keydown', (e) => {
         addTask()
     }
 })
+
+function deleteTask(col) {
+    col.addEventListener('click', (e) => {
+        if (e.target.classList.contains('dlt-btn')) {
+            col.removeChild(e.target.closest('.task'))
+            updateData()
+        }
+    })
+}
+
+deleteTask(todoCol)
+deleteTask(progCol)
+deleteTask(compCol)
