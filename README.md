@@ -7,7 +7,7 @@
 
 ---
 
-![Tray Screenshot](./assets/ss.png)
+<img width="1916" height="970" alt="Screenshot 2025-11-27 at 11 07 14 AM" src="https://github.com/user-attachments/assets/722c56ae-763e-442f-aa3f-1c04e34f69bb" />
 
 ## ✨ Features
 
